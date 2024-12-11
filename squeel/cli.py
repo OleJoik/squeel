@@ -8,6 +8,7 @@ def squeel():
     parser.add_argument(
         "root_folder", help="The root folder to look for files to format"
     )
+    parser.add_argument("--change", help="Dry run", action="store_true", default=False)
     parser.add_argument("--glob", type=str, help="Glob pattern")
     parser.add_argument(
         "--format_strategy",
@@ -17,6 +18,10 @@ def squeel():
     args = parser.parse_args()
 
     glob = args.glob or "*.py"
+    dry_run = not args.change
     format_strategy = args.format_strategy or "pg_format"
 
-    format_files(args.root_folder, glob, format_strategy)
+    if dry_run:
+        print("-- DRY RUN -- No actual changes will be made.")
+
+    format_files(args.root_folder, glob, format_strategy, dry_run)

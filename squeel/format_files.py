@@ -42,6 +42,7 @@ def format_files(
     dir: str,
     pattern: str,
     format_strategy: FormatStrategy,
+    dry_run: bool = True,
     encoding: str | None = None,
 ):
     total_files = 0
@@ -88,20 +89,21 @@ def format_files(
             if not file_captures:
                 continue
 
-            for i in range(len(formatted_chunks)):
-                chunk = formatted_chunks[-i]
-                end = content[chunk.end_byte :]
+            if not dry_run:
+                for i in range(len(formatted_chunks)):
+                    chunk = formatted_chunks[-i]
+                    end = content[chunk.end_byte :]
 
-                content = content[: chunk.start_byte]
+                    content = content[: chunk.start_byte]
 
-                lines = chunk.formatted_bytes.splitlines()
+                    lines = chunk.formatted_bytes.splitlines()
 
-                content = content + lines[0]  # the -- sql comment line
+                    content = content + lines[0]  # the -- sql comment line
 
-                for line in lines[1:]:
-                    content = content + b"\n" + indent + b"    " + line
+                    for line in lines[1:]:
+                        content = content + b"\n" + indent + b"    " + line
 
-                content = content + b"\n" + end
+                    content = content + b"\n" + end
 
             f.seek(0)
             f.write(content)
@@ -119,9 +121,9 @@ def format_files(
         print("No changes was made, files up to date!")
         return
 
-    print(f"Formatted {len(files_formatted)} files:")
+    print(f"{"Would format" if dry_run else "Formatted"} {len(files_formatted)} files:")
 
     for file_report in files_formatted:
         print(
-            f"{file_report.file}: {file_report.formatted} sql strings changed, {file_report.unchanged} unchanged."
+            f"{file_report.file}: {file_report.formatted} sql strings {"to be " if dry_run else ""}changed, {file_report.unchanged} unchanged."
         )
