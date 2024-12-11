@@ -10,7 +10,7 @@ Uses one of [sqlparse](https://github.com/andialbrecht/sqlparse) or [pg_format](
 
 This is an experimental tool.
 
-Its purpose is to change files on your system. I recommend checking your changes into git before running this tool in case it explodes. Ensure you give it the appropriate root_folder and glob patterns so it doesn't change files on your system that you don't want changed. No changes will be written to any files unless you supply the `--change` flag. The default behaviou is to dry run.
+Its purpose is to change files on your system. I recommend checking your changes into git before running this tool in case it explodes. Ensure you give it the appropriate root_folder and glob patterns so it doesn't change files on your system that you don't want changed. No changes will be written to any files unless you supply the `--change` flag. The default behaviour is to dry run.
 
 ```
 $ squeel .      
@@ -43,7 +43,7 @@ positional arguments:
 
 options:
   -h, --help            show this help message and exit
-  --change              Dry run
+  --change              Write the changes to files
   --glob GLOB           Glob pattern
   --format_strategy FORMAT_STRATEGY
                         Format strategy, one of 'pg_format' or 'sqlparse' (default pg_format)

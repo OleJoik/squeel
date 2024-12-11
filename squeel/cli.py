@@ -8,7 +8,12 @@ def squeel():
     parser.add_argument(
         "root_folder", help="The root folder to look for files to format"
     )
-    parser.add_argument("--change", help="Dry run", action="store_true", default=False)
+    parser.add_argument(
+        "--change",
+        help="Write the changes to files",
+        action="store_true",
+        default=False,
+    )
     parser.add_argument("--glob", type=str, help="Glob pattern")
     parser.add_argument(
         "--format_strategy",
